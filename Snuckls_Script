@@ -23,5 +23,5 @@ xmlhttp['onreadystatechange'] = function() {
         if (xmlhttp['readyState'] != 2 && xmlhttp['readyState'] != 3) {
             window['location']['reload']()
         }
-    }
+    } 
 }
