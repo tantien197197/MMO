@@ -1,0 +1,331 @@
+function InitializeFirebase() {
+    var _0xf90ax2 = {
+    	apiKey: "AIzaSyDg-YssHqP-vUiC_4F1xKls0bk4r6aoua4",
+    	authDomain: "zinnguyen-febc8.firebaseapp.com",
+    	databaseURL: "https://zinnguyen-febc8.firebaseio.com",
+    	projectId: "zinnguyen-febc8",
+    	storageBucket: "zinnguyen-febc8.appspot.com",
+    	messagingSenderId: "101767821839",
+    	appId: "1:101767821839:web:8863c0b628ea2d9471c17a",
+    	measurementId: "G-NW5ZW9H7BQ"
+    };
+    firebase['initializeApp'](_0xf90ax2)
+}
+console['log']('update snuckls: 16.9.2019');
+var tagReplay, btnReplay, time, category_questions, checkEndVideo, btnAnswer, msg, testAnswer, f, pre_answering, captchaDivs, videoId, answer;
+var divMain;
+var database;
+
+function AddTest() {
+    if (localStorage['getItem']('videoTotal') == null) {
+        localStorage['setItem']('videoTotal', 0)
+    };
+    if (localStorage['getItem']('videoF') == null) {
+        localStorage['setItem']('videoF', 0)
+    };
+    var _0xf90ax13, _0xf90ax14, _0xf90ax15;
+    var _0xf90ax16, _0xf90ax17, _0xf90ax18, _0xf90ax19, _0xf90ax1a;
+    _0xf90ax14 = window['document']['createElement']('div');
+    _0xf90ax15 = window['document']['createElement']('label');
+    _0xf90ax15['innerText'] = 'Video \u0111\xFAng: ' + localStorage['getItem']('videoTotal') + ' --- Video sai: ' + localStorage['getItem']('videoF');
+    _0xf90ax15['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax13 = document['createElement']('button');
+    _0xf90ax13['id'] = 'resetTest';
+    _0xf90ax13['innerText'] = 'Reset Test';
+    _0xf90ax13['setAttribute']('style', 'color: black;');
+    _0xf90ax14['appendChild'](_0xf90ax15);
+    _0xf90ax14['appendChild'](_0xf90ax13);
+    divMain['appendChild'](_0xf90ax14);
+    _0xf90ax13['addEventListener']('click', function() {
+        localStorage['setItem']('videoTotal', 0);
+        localStorage['setItem']('videoF', 0);
+        _0xf90ax15['innerText'] = 'Video \u0111\xFAng: ' + localStorage['getItem']('videoTotal') + ' --- Video sai: ' + localStorage['getItem']('videoF')
+    })
+}
+
+function AddLimit() {
+    var _0xf90ax1c, _0xf90ax1d, _0xf90ax1e;
+    _0xf90ax1c = window['document']['createElement']('div');
+    _0xf90ax1d = window['document']['createElement']('label');
+    _0xf90ax1d['innerText'] = 'Limit';
+    _0xf90ax1d['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax1e = window['document']['createElement']('input');
+    _0xf90ax1e['id'] = 'limit';
+    _0xf90ax1e['value'] = localStorage['getItem']('videoLimit');
+    _0xf90ax1e['setAttribute']('style', 'width: 50px;color: black;margin-right: 10px;');
+    _0xf90ax1c['appendChild'](_0xf90ax1d);
+    _0xf90ax1c['appendChild'](_0xf90ax1e);
+    divMain['appendChild'](_0xf90ax1c);
+    _0xf90ax1e['addEventListener']('change', function() {
+        localStorage['setItem']('videoLimit', _0xf90ax1e['value'])
+    })
+}
+
+function AddSpin() {
+    var _0xf90ax20, _0xf90ax21, _0xf90ax22;
+    _0xf90ax20 = window['document']['createElement']('div');
+    _0xf90ax21 = window['document']['createElement']('label');
+    _0xf90ax21['innerText'] = 'Auto Spin';
+    _0xf90ax21['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax22 = window['document']['createElement']('input');
+    _0xf90ax22['id'] = 'isSpin';
+    _0xf90ax22['type'] = 'checkbox';
+    _0xf90ax22['setAttribute']('style', 'width: 15px;height: 15px;vertical-align: bottom;');
+    _0xf90ax22['checked'] = JSON['parse'](localStorage['getItem']('isSpin'));
+    _0xf90ax20['appendChild'](_0xf90ax21);
+    _0xf90ax20['appendChild'](_0xf90ax22);
+    divMain['appendChild'](_0xf90ax20);
+    _0xf90ax22['addEventListener']('change', function() {
+        localStorage['setItem']('isSpin', _0xf90ax22['checked'])
+    })
+}
+
+function AddPay() {
+    var _0xf90ax24, _0xf90ax25, _0xf90ax26, _0xf90ax27, _0xf90ax28, _0xf90ax29, _0xf90ax2a, _0xf90ax2b, _0xf90ax2c;
+    _0xf90ax24 = window['document']['createElement']('div');
+    _0xf90ax25 = window['document']['createElement']('label');
+    _0xf90ax25['innerText'] = 'Auto Pay';
+    _0xf90ax25['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax26 = window['document']['createElement']('input');
+    _0xf90ax26['id'] = 'isAutoPay';
+    _0xf90ax26['type'] = 'checkbox';
+    _0xf90ax26['setAttribute']('style', 'width: 15px;height: 15px;vertical-align: bottom;');
+    _0xf90ax26['checked'] = JSON['parse'](localStorage['getItem']('isAutoPay'));
+    _0xf90ax24['appendChild'](_0xf90ax25);
+    _0xf90ax24['appendChild'](_0xf90ax26);
+    divMain['appendChild'](_0xf90ax24);
+    _0xf90ax27 = window['document']['createElement']('div');
+    _0xf90ax28 = window['document']['createElement']('label');
+    _0xf90ax28['innerText'] = 'Min Pay';
+    _0xf90ax28['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax29 = window['document']['createElement']('input');
+    _0xf90ax29['id'] = 'minPay';
+    _0xf90ax29['value'] = localStorage['getItem']('minPay');
+    _0xf90ax29['setAttribute']('style', 'width: 50px;color: black;margin-right: 10px;');
+    _0xf90ax2a = window['document']['createElement']('div');
+    _0xf90ax2b = window['document']['createElement']('label');
+    _0xf90ax2b['innerText'] = 'Mail';
+    _0xf90ax2b['setAttribute']('style', 'padding-right: 10px;');
+    _0xf90ax2c = window['document']['createElement']('input');
+    _0xf90ax2c['id'] = 'mail';
+    _0xf90ax2c['value'] = localStorage['getItem']('mail');
+    _0xf90ax2c['setAttribute']('style', 'width: 250px;color: black;margin-right: 10px;');
+    if (_0xf90ax26['checked']) {
+        _0xf90ax27['style']['display'] = 'block';
+        _0xf90ax2a['style']['display'] = 'block'
+    } else {
+        _0xf90ax27['style']['display'] = 'none';
+        _0xf90ax2a['style']['display'] = 'none'
+    };
+    _0xf90ax27['appendChild'](_0xf90ax28);
+    _0xf90ax27['appendChild'](_0xf90ax29);
+    _0xf90ax2a['appendChild'](_0xf90ax2b);
+    _0xf90ax2a['appendChild'](_0xf90ax2c);
+    divMain['appendChild'](_0xf90ax27);
+    divMain['appendChild'](_0xf90ax2a);
+    _0xf90ax26['addEventListener']('change', function() {
+        localStorage['setItem']('isAutoPay', _0xf90ax26['checked']);
+        if (_0xf90ax26['checked']) {
+            _0xf90ax27['style']['display'] = 'block';
+            _0xf90ax2a['style']['display'] = 'block'
+        } else {
+            _0xf90ax27['style']['display'] = 'none';
+            _0xf90ax2a['style']['display'] = 'none'
+        }
+    });
+    _0xf90ax29['addEventListener']('change', function() {
+        localStorage['setItem']('minPay', _0xf90ax29['value'])
+    });
+    _0xf90ax2c['addEventListener']('change', function() {
+        localStorage['setItem']('mail', _0xf90ax2c['value'])
+    })
+}
+
+function AddControl() {
+    divMain = window['document']['createElement']('div');
+    divMain['id'] = 'divMain';
+    divMain['setAttribute']('style', 'color: #ffbe00;position: fixed;top: 0px;z-index: 999999999;font-weight: bold;background-color: black; padding: 10px;');
+    window['document']['querySelector']('body')['appendChild'](divMain);
+    AddTest();
+    AddLimit();
+    AddSpin();
+    AddPay()
+}
+
+function IsLimitAndPayAndZoomAndAnswer() {
+    setTimeout(function() {
+        InitializeFirebase();
+        database = firebase['database']();
+        try {
+            videoId = document['getElementById']('video_player')['src']['slice'](30, 41);
+            database['ref']('/answer/' + videoId)['once']('value')['then'](function(_0xf90ax2f) {
+                answer = _0xf90ax2f['val']();
+                console['log'](answer)
+            })
+        } catch (e) {
+            setTimeout(function() {
+                window['location']['href'] = 'https://www.snuckls.com/videos'
+            }, 6500)
+        };
+        try {
+            if (parseInt(localStorage['getItem']('videoLimit')) > 0 && parseInt(window['document']['querySelectorAll']('#header > .pink_strip_homepage > span.challenge-message')[0]['innerText']['split']('.')[2]['split']('/')[0]) >= parseInt(localStorage['getItem']('videoLimit'))) {
+                setTimeout(function() {
+                    window['location']['href'] = 'about:blank'
+                }, 1000)
+            }
+        } catch (e) {};
+        try {
+            if (parseFloat(localStorage['getItem']('minPay')) <= parseFloat(document['getElementById']('totalMoney')['innerText']) && JSON['parse'](localStorage['getItem']('isAutoPay'))) {
+                window['location']['href'] = 'https://www.snuckls.com/prizes'
+            }
+        } catch (e) {}
+    }, 10000);
+    try {
+        document['getElementById']('a')['setAttribute']('style', 'width: 100px;height: auto');
+        document['getElementById']('b')['setAttribute']('style', 'width: 500px;height: auto')
+    } catch (e) {
+        setTimeout(function() {
+            window['location']['href'] = 'https://www.snuckls.com/videos'
+        }, 6500)
+    }
+}
+
+function ReplayAndSpin() {
+    setInterval(function() {
+        try {
+            tagReplay = document['getElementsByClassName']('video-ov-div')[0];
+            btnReplay = document['getElementById']('replay_video');
+            if (tagReplay['style']['display'] != 'none') {
+                btnReplay['click']()
+            }
+        } catch (e) {};
+        try {
+            if (parseInt(document['getElementById']('spinsLeft')['innerText']) >= 1 && JSON['parse'](localStorage['getItem']('isSpin'))) {
+                document['getElementById']('spin')['click']()
+            }
+        } catch (e) {}
+    }, 8000)
+}
+
+function isNotPlay() {
+    setTimeout(function() {
+        try {
+            time = document['getElementsByClassName']('video-page-current-duration')[0]['innerText'];
+            if (time == '' || parseInt(time) < 1) {
+                window['location']['href'] = 'https://www.snuckls.com/videos'
+            }
+        } catch (e) {
+            window['location']['href'] = 'https://www.snuckls.com/videos'
+        }
+    }, 20000)
+}
+
+function MainVideo() {
+    IsLimitAndPayAndZoomAndAnswer();
+    ReplayAndSpin();
+    isNotPlay();
+    pre_answering = document['getElementsByClassName']('pre-answering')[0];
+    category_questions = document['getElementsByClassName']('video-category video-category-questions-div')[0];
+    captchaDivs = document['getElementsByClassName']('captchaDivs')[0];
+    btnAnswer = [];
+    var _0xf90ax33 = window['document']['querySelectorAll']('#body .video-category.video-category-questions-div ul.link-btn-list > li > a');
+    for (var _0xf90ax34 = 0; _0xf90ax34 < _0xf90ax33['length']; _0xf90ax34++) {
+        if (_0xf90ax33[_0xf90ax34]['className'] != 'border-btn') {
+            btnAnswer['push'](_0xf90ax33[_0xf90ax34])
+        }
+    };
+    msg = document['getElementsByClassName']('watch-vdo-msg')[0];
+    testAnswer = false;
+    checkEndVideo = setInterval(function() {
+        if (category_questions['style']['display'] == 'block' && pre_answering['style']['display'] != 'none' && captchaDivs['style']['display'] == 'none') {
+            for (var _0xf90ax35 = 0; _0xf90ax35 < btnAnswer['length']; _0xf90ax35++) {
+                if (btnAnswer[_0xf90ax35]['innerText']['trim']() == answer) {
+                    btnAnswer[_0xf90ax35]['click']();
+                    testAnswer = true;
+                    break
+                }
+            };
+            if (!testAnswer) {
+                f = Math['floor'](Math['random']() * 4);
+                answer = btnAnswer[f]['innerText'];
+                btnAnswer[f]['click']()
+            }
+        };
+        if (msg['innerText']['toLowerCase']()['includes']('correct') || msg['innerText']['toLowerCase']()['includes']('complete') || msg['innerText']['toLowerCase']()['includes']('congrats')) {
+            clearInterval(checkEndVideo);
+            localStorage['setItem']('videoTotal', parseInt(localStorage['getItem']('videoTotal')) + 1);
+            if (!testAnswer) {
+                database['ref']('/answer/' + videoId)['set'](answer)
+            };
+            setTimeout(function() {
+                window['location']['href'] = 'https://www.snuckls.com/videos'
+            }, 1000)
+        } else {
+            if (msg['innerText']['toLowerCase']()['includes']('wrong')) {
+                clearInterval(checkEndVideo);
+                localStorage['setItem']('videoF', parseInt(localStorage['getItem']('videoF')) + 1);
+                if (testAnswer) {
+                    database['ref']('/answer/' + videoId)['remove']()
+                };
+                setTimeout(function() {
+                    window['location']['href'] = 'https://www.snuckls.com/videos'
+                }, 1000)
+            }
+        }
+    }, 3000)
+}
+
+function MainPay() {
+    setTimeout(function() {
+        window['location']['href'] = 'https://www.snuckls.com/videos'
+    }, 30000);
+    try {
+        if (parseFloat(localStorage['getItem']('minPay')) <= parseFloat(document['getElementById']('balance')['innerText']) && JSON['parse'](localStorage['getItem']('isAutoPay'))) {
+            setTimeout(function() {
+                document['getElementsByClassName']('redeemButton')[0]['click']();
+                setTimeout(function() {
+                    document['getElementById']('userEmail')['value'] = localStorage['getItem']('mail');
+                    setTimeout(function() {
+                        document['getElementById']('subGiftCard')['click']();
+                        setTimeout(function() {
+                            window['location']['href'] = 'https://www.snuckls.com/videos'
+                        }, 2000)
+                    }, 2000)
+                }, 1000)
+            }, 5000)
+        } else {
+            setTimeout(function() {
+                window['location']['href'] = 'https://www.snuckls.com/videos'
+            }, 2000)
+        }
+    } catch (e) {
+        setTimeout(function() {
+            window['location']['href'] = 'https://www.snuckls.com/videos'
+        }, 2000)
+    }
+}(function() {
+    setInterval(function() {
+        window['alert'] = function() {}
+    }, 60000);
+    setTimeout(function() {
+        window['location']['href'] = 'https://www.snuckls.com/videos'
+    }, 360000);
+    AddControl();
+    if (window['location']['href'] == 'https://www.snuckls.com/videos') {
+        MainVideo()
+    } else {
+        if (window['location']['href'] == 'https://www.snuckls.com/prizes' && JSON['parse'](localStorage['getItem']('isAutoPay'))) {
+            MainPay()
+        } else {
+            if (window['location']['href'] == 'https://www.snuckls.com/home?login=true&redirect_url=videos') {
+                setTimeout(function() {
+                    document['getElementsByClassName']('login-with-facebook-button needloader')[0]['click']()
+                }, 5000)
+            } else {
+                setTimeout(function() {
+                    window['location']['href'] = 'https://www.snuckls.com/videos'
+                }, 6500)
+            }
+        }
+    }
+})()
